@@ -1,0 +1,37 @@
+<h1> <i class="fa-brands fa-github text-gray-100"></i> Github issues</h1>
+
+<div class="my-5 border-b-2 border-blue-500">
+</div>
+
+<section class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+  <div class="col-span-3 flex flex-col">
+    <div class="flex gap-2">
+      <button (click)="onChangeState('all')" [class.active]="issueService.selectedState() === 'all'" class="btn">All</button>
+      <button (click)="onChangeState('open')" [class.active]="issueService.selectedState() === 'open'" class="btn">Open</button>
+      <button (click)="onChangeState('closed')" [class.active]="issueService.selectedState() === 'closed'" class="btn">Closed</button>
+    </div>
+  </div>
+
+  <div class="col-span-2 mt-4 flex flex-col">
+    <h2>Issues</h2>
+    @for ( issue of issuesQuery.data(); track issue.id ) {
+      <app-issue-selector [issue]="issue"></app-issue-selector>
+    } @empty {
+      @if(issuesQuery.isLoading()) {
+        <p>Cargando...</p>
+      } @else {
+        <p>No hay issues que mostrar</p>
+      }
+    }
+
+  </div>
+
+  <div>
+    <h2>Labels</h2>
+    @if(labelsQuery.isLoading()) {
+      <p>Estamos cargando...</p>
+    } @else {
+      <app-label-selector [labels]="labelsQuery.data() ?? []"></app-label-selector>
+    }
+  </div>
+</section>
